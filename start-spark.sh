@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 SPARK_PID=0
 
@@ -13,17 +13,13 @@ term_handler() {
   exit
 }
 
-echo "------------2"
-
 # Capture kill requests to stop properly
 trap "term_handler" SIGHUP SIGINT SIGTERM
 
-echo "------------3"
-
 cd $SPARK_HOME/sbin
 
-echo "------------4"
-$SPARK_HOME/sbin/start-master.sh &
-SPARK_PID=$!
+$SPARK_HOME/sbin/start-master.sh 
 
-wait
+#SPARK_PID=$!
+
+#wait

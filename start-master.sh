@@ -55,6 +55,17 @@ if [ "$SPARK_MASTER_WEBUI_PORT" = "" ]; then
   SPARK_MASTER_WEBUI_PORT=8080
 fi
 
-"${SPARK_HOME}/sbin"/spark-daemon.sh start $CLASS 1 \
- --host $SPARK_MASTER_HOST --port $SPARK_MASTER_PORT --webui-port $SPARK_MASTER_WEBUI_PORT \
- $ORIGINAL_ARGS
+# "${SPARK_HOME}/sbin"/spark-daemon.sh start $CLASS 1 \
+#  --host $SPARK_MASTER_HOST --port $SPARK_MASTER_PORT --webui-port $SPARK_MASTER_WEBUI_PORT \
+#  $ORIGINAL_ARGS
+
+# Set default scheduling priority
+if [ "$SPARK_NICENESS" = "" ]; then
+    export SPARK_NICENESS=0
+fi
+
+echo "before executing task"
+
+nohup nice -n "$SPARK_NICENESS" "${SPARK_HOME}"/bin/spark-class $CLASS 1 \
+  --host $SPARK_MASTER_HOST --port $SPARK_MASTER_PORT --webui-port $SPARK_MASTER_WEBUI_PORT \
+  $ORIGINAL_ARGS

@@ -16,9 +16,7 @@ term_handler() {
 # Capture kill requests to stop properly
 trap "term_handler" SIGHUP SIGINT SIGTERM
 
-cd $SPARK_HOME/sbin
-
-$SPARK_HOME/sbin/start-slave.sh 
+"${SPARK_HOME}"/sbin/start-slave.sh 
 
 SPARK_PID=$!
 

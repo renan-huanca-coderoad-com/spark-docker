@@ -43,6 +43,6 @@ if [ "$SPARK_NICENESS" = "" ]; then
     export SPARK_NICENESS=0
 fi
 
-"${SPARK_HOME}"/bin/spark-class $CLASS \
+nohup nice -n "$SPARK_NICENESS" "${SPARK_HOME}"/bin/spark-class $CLASS \
   --host $SPARK_MASTER_HOST --port $SPARK_MASTER_PORT --webui-port $SPARK_MASTER_WEBUI_PORT \
   $ORIGINAL_ARGS

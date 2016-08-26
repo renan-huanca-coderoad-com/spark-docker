@@ -18,7 +18,7 @@ trap "term_handler" SIGHUP SIGINT SIGTERM
 
 cd $SPARK_HOME/sbin
 
-$SPARK_HOME/sbin/start-master.sh 
+$SPARK_HOME/sbin/start-slave.sh 
 
 SPARK_PID=$!
 

@@ -15,8 +15,6 @@ ENV SPARK_HOME="/opt/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}"
 
 COPY start-spark.sh /usr/bin/start-spark.sh
 
-COPY spark-class ${SPARK_HOME}/bin/spark-class
-COPY spark-daemon.sh ${SPARK_HOME}/sbin/spark-daemon.sh
 COPY start-master.sh ${SPARK_HOME}/sbin/start-master.sh
-
+EXPOSE 7077 8080 6066
 ENTRYPOINT ["start-spark.sh"]

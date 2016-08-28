@@ -20,10 +20,4 @@ if [ "$SPARK_MASTER_HOST" = "" ]; then
   SPARK_MASTER_HOST="`hostname`"
 fi
 
-
-
-#"${SPARK_HOME}"/bin/spark-class $CLASS spark://$SPARK_MASTER_HOST:$SPARK_MASTER_PORT
-
-echo "${SPARK_HOME}"/bin/spark-class $CLASS spark://$SPARK_MASTER_HOST:$SPARK_MASTER_PORT
-
 "${SPARK_HOME}"/bin/spark-class $CLASS spark://$SPARK_MASTER_HOST:7077

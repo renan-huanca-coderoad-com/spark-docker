@@ -13,8 +13,9 @@ RUN /tmp/download-spark.sh && tar xfz /tmp/spark-${SPARK_VERSION}-bin-hadoop${HA
 
 ENV SPARK_HOME="/opt/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}"
 
-COPY start-spark.sh /usr/bin/start-spark.sh
-COPY start-slave.sh ${SPARK_HOME}/sbin/start-slave.sh
+COPY start-master.sh /usr/bin/start-master.sh
+COPY start-slave.sh /usr/bin/start-slave.sh
+COPY run.sh /run.sh
 
 EXPOSE 8081
-ENTRYPOINT ["start-spark.sh"]
+ENTRYPOINT ["/run.sh"]

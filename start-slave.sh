@@ -3,17 +3,26 @@
 
 CLASS="org.apache.spark.deploy.worker.Worker"
 
-echo ">>> -1 SPARK_MASTER_PORT=$SPARK_MASTER_PORT"
+# fixing SPARK_MASTER_PORT
+# for some reason in docker and when using --link argument
+# this var starts with value: tcp://172.17.0.2:8080
+if [[ ${SPARK_MASTER_PORT:0:3} == 'tcp' ]]
+then
+    unset SPARK_MASTER_PORT
+fi
 
 SPARK_MASTER_PORT=${SPARK_MASTER_PORT:=7077}
-
-echo ">>> -2 SPARK_MASTER_PORT=$SPARK_MASTER_PORT"
-
-echo "SPARK_MASTER_HOST=$SPARK_MASTER_HOST"
 
 if [ -z "$SPARK_MASTER_HOST" ]; then
   echo "SPARK_MASTER_HOST envvar is not defined."
   exit 1
 fi
 
+echo
+echo "SPARK_MASTER_HOST: $SPARK_MASTER_HOST"
+echo "SPARK_MASTER_PORT: $SPARK_MASTER_PORT"
+
+
+echo "${SPARK_HOME}"/bin/spark-class $CLASS spark://$SPARK_MASTER_HOST:$SPARK_MASTER_PORT
+echo
 "${SPARK_HOME}"/bin/spark-class $CLASS spark://$SPARK_MASTER_HOST:$SPARK_MASTER_PORT

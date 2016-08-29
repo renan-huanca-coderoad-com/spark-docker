@@ -10,9 +10,6 @@ echo
 echo "SPARK_INSTANCE_TYPE: $SPARK_INSTANCE_TYPE"
 echo "SPARK_HOME: $SPARK_HOME"
 
-echo ">>> -aaaa 1 SPARK_MASTER_PORT=$SPARK_MASTER_PORT"
-
-
 ## UTILITY FUNCTION(S)
 ## -------------------
 # see https://medium.com/@gchudnov/trapping-signals-in-docker-containers-7a57fdda7d86#.bh35ir4u5
@@ -25,8 +22,6 @@ term_handler() {
   echo 'Spark stopped.'
   exit
 }
-
-echo ">>> -aaaa 2 SPARK_MASTER_PORT=$SPARK_MASTER_PORT"
 
 ## MAIN
 ## ----
@@ -46,9 +41,7 @@ case $SPARK_INSTANCE_TYPE in
 	'slave')
 	echo
 	echo "Starting slave..."
-  echo ">>> -aaaa 3 SPARK_MASTER_PORT=$SPARK_MASTER_PORT"
-
-	# start-slave.sh &
+	start-slave.sh &
 	;;
 
 	*)

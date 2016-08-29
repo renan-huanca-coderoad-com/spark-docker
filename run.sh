@@ -10,6 +10,9 @@ echo
 echo "SPARK_INSTANCE_TYPE: $SPARK_INSTANCE_TYPE"
 echo "SPARK_HOME: $SPARK_HOME"
 
+echo ">>> -aaaa 1 SPARK_MASTER_PORT=$SPARK_MASTER_PORT"
+
+
 ## UTILITY FUNCTION(S)
 ## -------------------
 # see https://medium.com/@gchudnov/trapping-signals-in-docker-containers-7a57fdda7d86#.bh35ir4u5
@@ -23,7 +26,9 @@ term_handler() {
   exit
 }
 
-## MAIN 
+echo ">>> -aaaa 2 SPARK_MASTER_PORT=$SPARK_MASTER_PORT"
+
+## MAIN
 ## ----
 
 # Capture kill requests to stop properly
@@ -31,16 +36,24 @@ trap "term_handler" SIGHUP SIGINT SIGTERM
 
 SPARK_PID=0
 case $SPARK_INSTANCE_TYPE in
-	
+
 	'master')
 	echo
 	echo "Starting master..."
 	start-master.sh &
 	;;
-	
-	*) 
-	echo "ERROR: SPARK_INSTANCE_TYPE is empty or invalid. Exiting..."; 
-	exit 1 
+
+	'slave')
+	echo
+	echo "Starting slave..."
+  echo ">>> -aaaa 3 SPARK_MASTER_PORT=$SPARK_MASTER_PORT"
+
+	# start-slave.sh &
+	;;
+
+	*)
+	echo "ERROR: SPARK_INSTANCE_TYPE is empty or invalid. Exiting...";
+	exit 1
 	;;
 esac
 

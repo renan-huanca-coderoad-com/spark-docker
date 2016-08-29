@@ -3,21 +3,17 @@
 
 CLASS="org.apache.spark.deploy.worker.Worker"
 
-if [ -z "${SPARK_HOME}" ]; then
-  export SPARK_HOME="$(cd "`dirname "$0"`"/..; pwd)"
+echo ">>> -1 SPARK_MASTER_PORT=$SPARK_MASTER_PORT"
+
+SPARK_MASTER_PORT=${SPARK_MASTER_PORT:=7077}
+
+echo ">>> -2 SPARK_MASTER_PORT=$SPARK_MASTER_PORT"
+
+echo "SPARK_MASTER_HOST=$SPARK_MASTER_HOST"
+
+if [ -z "$SPARK_MASTER_HOST" ]; then
+  echo "SPARK_MASTER_HOST envvar is not defined."
+  exit 1
 fi
 
-. "${SPARK_HOME}/sbin/spark-config.sh"
-
-. "${SPARK_HOME}/bin/load-spark-env.sh"
-
-# Find the port number for the master
-if [ "$SPARK_MASTER_PORT" = "" ]; then
-  SPARK_MASTER_PORT=7077
-fi
-
-if [ "$SPARK_MASTER_HOST" = "" ]; then
-  SPARK_MASTER_HOST="`hostname`"
-fi
-
-"${SPARK_HOME}"/bin/spark-class $CLASS spark://$SPARK_MASTER_HOST:7077
+"${SPARK_HOME}"/bin/spark-class $CLASS spark://$SPARK_MASTER_HOST:$SPARK_MASTER_PORT

@@ -9,6 +9,27 @@ COPY download-spark.sh /tmp/download-spark.sh
 
 RUN /tmp/download-spark.sh && tar xfz /tmp/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz -C /opt && rm /tmp/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz
 
+USER root
+
+RUN apk add --update openssh rsync
+
+# passwordless ssh
+RUN ssh-keygen -q -N "" -t dsa -f /etc/ssh/ssh_host_ed25519_key
+RUN ssh-keygen -q -N "" -t dsa -f /etc/ssh/ssh_host_ecdsa_key
+RUN ssh-keygen -q -N "" -t dsa -f /etc/ssh/ssh_host_dsa_key
+RUN ssh-keygen -q -N "" -t rsa -f /etc/ssh/ssh_host_rsa_key
+RUN ssh-keygen -q -N "" -t rsa -f /root/.ssh/id_rsa
+RUN cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
+
+ADD ssh_config /root/.ssh/config
+RUN chmod 600 /root/.ssh/config
+RUN chown root:root /root/.ssh/config
+
+# fix the 254 error code
+#RUN sed  -i "/^[^#]*UsePAM/ s/.*/#&/"  /etc/ssh/sshd_config
+#RUN echo "UsePAM no" >> /etc/ssh/sshd_config
+#RUN echo "Port 2122" >> /etc/ssh/sshd_config
+
 # VOLUME ["/spark"]
 
 ENV SPARK_HOME="/opt/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}"
@@ -17,5 +38,7 @@ COPY start-master.sh /usr/bin/start-master.sh
 COPY start-slave.sh /usr/bin/start-slave.sh
 COPY run.sh /run.sh
 
-EXPOSE 8081 8081 7077 6066 
+EXPOSE 22 8080 8081 7077 6066 
 ENTRYPOINT ["/run.sh"]
+
+CMD ["/usr/sbin/ssh", "-D"]

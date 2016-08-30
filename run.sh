@@ -2,6 +2,10 @@
 
 set -e
 
+echo
+echo Starting ssh server
+/usr/sbin/sshd
+
 SPARK_INSTANCE_TYPE=${SPARK_INSTANCE_TYPE:='master'}
 
 # Echoing settings for debug purposes

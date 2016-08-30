@@ -1,0 +1,14 @@
+# Disable protocol 1 RSA key based authentication
+#RSAAuthentication no
+
+# Protocol 2 public key based authentication
+#PubkeyAuthentication yes
+
+# Authorized public keys file
+#AuthorizedKeysFile .ssh/authorized_keys
+
+
+Host *
+  UserKnownHostsFile /dev/null
+  StrictHostKeyChecking no
+  LogLevel quiet

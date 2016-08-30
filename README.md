@@ -3,6 +3,7 @@ Using docker composer
 ---------------------
 
 > docker-compose up -d
+
 > docker-compose scale spark-slave=5
 
 

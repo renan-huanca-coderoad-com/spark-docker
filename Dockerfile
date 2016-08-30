@@ -17,5 +17,5 @@ COPY start-master.sh /usr/bin/start-master.sh
 COPY start-slave.sh /usr/bin/start-slave.sh
 COPY run.sh /run.sh
 
-EXPOSE 8080 8081
+EXPOSE 8081 8081 7077 6066 
 ENTRYPOINT ["/run.sh"]

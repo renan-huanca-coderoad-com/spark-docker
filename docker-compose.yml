@@ -1,14 +1,14 @@
 version: '2'
 services:
   spark-master:
-    build: /home/rhuanca/src-mojix/spark-docker 
+    build: . 
     ports:
       - "8080:8080"
     environment:
       SPARK_INSTANCE_TYPE: master
       SPARK_MASTER_HOST: spark-master
   spark-slave:
-    build: /home/rhuanca/src-mojix/spark-docker
+    build: .
     environment:
       SPARK_INSTANCE_TYPE: slave
       SPARK_MASTER_HOST: spark-master

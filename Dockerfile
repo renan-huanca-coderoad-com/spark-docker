@@ -30,15 +30,14 @@ RUN chown root:root /root/.ssh/config
 #RUN echo "UsePAM no" >> /etc/ssh/sshd_config
 #RUN echo "Port 2122" >> /etc/ssh/sshd_config
 
-# VOLUME ["/spark"]
-
+RUN mkdir /home/rhuanca
 ENV SPARK_HOME="/opt/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}"
 
 COPY start-master.sh /usr/bin/start-master.sh
 COPY start-slave.sh /usr/bin/start-slave.sh
 COPY run.sh /run.sh
 
-EXPOSE 22 8080 8081 7077 6066 
+EXPOSE 22 8080 8081 7077 6066
 ENTRYPOINT ["/run.sh"]
 
 CMD ["/usr/sbin/ssh", "-D"]

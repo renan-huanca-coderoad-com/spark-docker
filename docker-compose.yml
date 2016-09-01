@@ -12,6 +12,13 @@ services:
       SPARK_MASTER_HOST: spark-master
     volumes:
       - ${CORE_BRIDGES_PATH}:${CORE_BRIDGES_PATH}
+    # networks:
+    #   - vizix-network
+    external_links:
+      - hazelcast1
+      - mysql
+      - mosquitto
+      - mongo
 
   spark-slave:
     build: .
@@ -20,6 +27,14 @@ services:
       SPARK_MASTER_HOST: spark-master
     volumes:
       - ${CORE_BRIDGES_PATH}:${CORE_BRIDGES_PATH}
-
-    links:
-      - spark-master
+    # networks:
+    #   - vizix-network
+    external_links:
+      - hazelcast1
+      - mysql
+      - mosquitto
+      - mongo
+networks:
+  default:
+    external:
+      name: vizix-network

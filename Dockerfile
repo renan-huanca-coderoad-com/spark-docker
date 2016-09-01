@@ -25,19 +25,13 @@ ADD ssh_config /root/.ssh/config
 RUN chmod 600 /root/.ssh/config
 RUN chown root:root /root/.ssh/config
 
-# fix the 254 error code
-#RUN sed  -i "/^[^#]*UsePAM/ s/.*/#&/"  /etc/ssh/sshd_config
-#RUN echo "UsePAM no" >> /etc/ssh/sshd_config
-#RUN echo "Port 2122" >> /etc/ssh/sshd_config
-
-RUN mkdir /home/rhuanca
 ENV SPARK_HOME="/opt/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}"
+ENV SPARK_WORKER_OPTS="-Dlog4j.configuration=${SPARK_HOME}/conf/log4j.properties"
 
 COPY start-master.sh /usr/bin/start-master.sh
 COPY start-slave.sh /usr/bin/start-slave.sh
+COPY log4j.properties ${SPARK_HOME}/conf/log4j.properties
 COPY run.sh /run.sh
 
 EXPOSE 22 8080 8081 7077 6066
 ENTRYPOINT ["/run.sh"]
-
-CMD ["/usr/sbin/ssh", "-D"]

@@ -30,7 +30,7 @@ ENV SPARK_WORKER_OPTS="-Dlog4j.configuration=${SPARK_HOME}/conf/log4j.properties
 
 COPY start-master.sh /usr/bin/start-master.sh
 COPY start-slave.sh /usr/bin/start-slave.sh
-COPY log4j.properties ${SPARK_HOME}/conf/log4j.properties
+#COPY log4j.properties ${SPARK_HOME}/conf/log4j.properties
 COPY run.sh /run.sh
 
 EXPOSE 22 8080 8081 7077 6066
